@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// TODO: Add endpoints
+// Add endpoints
 app.use("/animals", animalsRouter);
 
 // handling errors

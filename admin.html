@@ -37,8 +37,6 @@
     <h1></h1>
 
     <form id="new-animal" class="mx-auto mt-16 max-w-xl sm:mt-20">
-      <!-- <fieldset>
-        <legend>Add new animal</legend> -->
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Animal shelter Admin UI
@@ -85,7 +83,6 @@
           Add new animal
         </button>
       </div>
-      <!-- </fieldset> -->
     </form>
 
     <h2
@@ -94,7 +91,6 @@
     </h2>
     <div class="mx-14 relative overflow-x-auto shadow-md sm:rounded-lg">
       <table
-        border="1"
         width="800"
         class="border-b w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
@@ -202,11 +198,8 @@
         .getElementById("new-animal")
         .addEventListener("submit", async (event) => {
           event.preventDefault();
-
           const name = document.getElementById("name").value;
           const desc = document.getElementById("desc").value;
-          //const hearts = document.getElementById("hearts").value;
-
           const newAnimal = { name, desc };
 
           console.log("🚀 ~ .addEventListener ~ newAnimal:", newAnimal);
@@ -223,8 +216,6 @@
               alert("Animal added successfully!");
               fetchAnimals();
               document.location.reload();
-              // Optionally, reset the form or provide feedback to the user
-
               document.getElementById("name").value = "";
               document.getElementById("desc").value = "";
             } else {
@@ -235,43 +226,42 @@
           }
         });
 
-      // TODO: Fetch actual data!
-      const fakeAnimals = [
-        {
-          id: 1,
-          reserved: false,
-          name: "Bean 🐀",
-          desc: "Bean LOVEs food. More couch potato than star athlete. Speaks 4 languages, used to be top 20 in the world at Age of Empires II but now mostly plays chess. Diabetic.",
-          hearts: 6,
-        },
-        {
-          id: 2,
-          reserved: false,
-          name: "Burt 😺",
-          desc: "Burt is and older cat that is looking for a quiet life indoors. Used to be a plumber, we think. FIV+.",
-          hearts: 3,
-        },
-        {
-          id: 3,
-          reserved: false,
-          name: "Thundersocks 🐶",
-          desc: "Thundersocks is very young, active and full of life. Lives for water activities and tug-of-war.",
-          hearts: 4,
-        },
-        {
-          id: 4,
-          reserved: false,
-          name: "Gop 🐱",
-          desc: "Gop is scared of most things and needs a calm home. Likes death metal and sci-fi.",
-          hearts: 516,
-        },
-      ];
+      // const fakeAnimals = [
+      //   {
+      //     id: 1,
+      //     reserved: false,
+      //     name: "Bean 🐀",
+      //     desc: "Bean LOVEs food. More couch potato than star athlete. Speaks 4 languages, used to be top 20 in the world at Age of Empires II but now mostly plays chess. Diabetic.",
+      //     hearts: 6,
+      //   },
+      //   {
+      //     id: 2,
+      //     reserved: false,
+      //     name: "Burt 😺",
+      //     desc: "Burt is and older cat that is looking for a quiet life indoors. Used to be a plumber, we think. FIV+.",
+      //     hearts: 3,
+      //   },
+      //   {
+      //     id: 3,
+      //     reserved: false,
+      //     name: "Thundersocks 🐶",
+      //     desc: "Thundersocks is very young, active and full of life. Lives for water activities and tug-of-war.",
+      //     hearts: 4,
+      //   },
+      //   {
+      //     id: 4,
+      //     reserved: false,
+      //     name: "Gop 🐱",
+      //     desc: "Gop is scared of most things and needs a calm home. Likes death metal and sci-fi.",
+      //     hearts: 516,
+      //   },
+      // ];
 
       const table = document.querySelector("tbody");
       const actions = document.querySelector("#actions").innerHTML;
 
+      // Fetch animals from the API and display them in the table
       let animalsList = [];
-
       async function fetchAnimals() {
         try {
           const response = await fetch("http://localhost:3000/animals");
@@ -292,16 +282,17 @@
         }
       }
 
+      // Fetch animals when the page loads
       window.onload = function (e) {
         fetchAnimals();
       };
 
+      // Remove animal from the list
       async function remove(element) {
         const animalId = element.parentElement.dataset.id;
 
         const animal = animalsList.find((a) => a._id == animalId);
 
-        // TODO: Make DELETE request to the API for this animal
         const response = await fetch(
           `http://localhost:3000/animals/${animalId}`,
           {
@@ -313,6 +304,7 @@
         document.location.reload();
       }
 
+      // Reserve animal
       async function reserve(element) {
         const animalId = element.parentElement.dataset.id;
         const animal = animalsList.find((a) => a._id == animalId);
@@ -320,7 +312,6 @@
           return alert("Animal already reserved");
         }
 
-        // TODO: Make PATCH request to the API for this animal
         const response = await fetch(
           `http://localhost:3000/animals/${animalId}`,
           {
@@ -331,12 +322,10 @@
             body: JSON.stringify({ reserved: true }),
           }
         );
-        // Only send "{ reserved: true }" as the request
-
-        // If the request is successful, refresh the page
         document.location.reload();
       }
 
+      // Cancel modal
       function cancel() {
         const bg = document.querySelector("#backdrop");
         const modal = document.querySelector("#modal");
@@ -344,6 +333,7 @@
         modal.classList.add("hide");
       }
 
+      // Edit animal
       async function edit(element) {
         const bg = document.querySelector("#backdrop");
         const modal = document.querySelector("#modal");
@@ -358,6 +348,7 @@
         modal.dataset.id = element.parentElement.dataset.id; // Save animal ID into element data attributes
       }
 
+      // Edit animal
       async function doEdit() {
         const modal = document.querySelector("#modal");
         const animalId = modal.dataset.id;
@@ -368,8 +359,6 @@
 
         const body = { name: newName, desc: newDesc };
 
-        console.log(body);
-        // TODO: Make PUT request to the API for this animal
         const response = await fetch(
           `http://localhost:3000/animals/${animalId}`,
 

@@ -62,31 +62,29 @@
         fetchAnimals();
       };
 
-      // TODO: Fetch actual data!
-      const fakeAnimals = [
-        {
-          name: "Bean",
-          desc: "Bean LOVEs food. More couch potato than star athlete. Speaks 4 languages, used to be top 20 in the world at Age of Empires II but now mostly plays chess. Diabetic.",
-          hearts: 6,
-        },
-        {
-          name: "Burt",
-          desc: "Burt is and older cat that is looking for a quiet life indoors. Used to be a plumber, we think. FIV+.",
-          hearts: 3,
-        },
-        {
-          name: "Thundersocks",
-          desc: "Thundersocks is very young, active and full of life. Lives for water activities and tug-of-war.",
-          hearts: 4,
-        },
-        {
-          name: "Gop",
-          desc: "Gop is scared of most things and needs a calm home. Likes death metal and sci-fi.",
-          hearts: 516,
-        },
-      ];
-
-      let animalList = [];
+      // This is a fake list of animals
+      // const fakeAnimals = [
+      //   {
+      //     name: "Bean",
+      //     desc: "Bean LOVEs food. More couch potato than star athlete. Speaks 4 languages, used to be top 20 in the world at Age of Empires II but now mostly plays chess. Diabetic.",
+      //     hearts: 6,
+      //   },
+      //   {
+      //     name: "Burt",
+      //     desc: "Burt is and older cat that is looking for a quiet life indoors. Used to be a plumber, we think. FIV+.",
+      //     hearts: 3,
+      //   },
+      //   {
+      //     name: "Thundersocks",
+      //     desc: "Thundersocks is very young, active and full of life. Lives for water activities and tug-of-war.",
+      //     hearts: 4,
+      //   },
+      //   {
+      //     name: "Gop",
+      //     desc: "Gop is scared of most things and needs a calm home. Likes death metal and sci-fi.",
+      //     hearts: 516,
+      //   },
+      // ];
 
       const cards = document.querySelector("#cards");
       const tmpl = document.querySelector("#card");
@@ -100,6 +98,8 @@
         cards.append(element);
       }
 
+      // Fetch the animals from the API
+      let animalList = [];
       async function fetchAnimals() {
         try {
           const response = await fetch("http://localhost:3000/animals");
@@ -111,13 +111,12 @@
         }
       }
 
+      // Like an animal
       async function like(element) {
         const animalId = element.id;
-        console.log("🚀 ~ like ~ animalId:", animalId);
 
         const animal = animalList.find((a) => a._id == animalId);
 
-        // TODO: Make PATCH request to the API for this animal
         const response = await fetch(
           `http://localhost:3000/animals/like/${animalId}`,
           {
@@ -128,13 +127,9 @@
             body: JSON.stringify({ hearts: element.hearts++ }),
           }
         );
-        // Only send "{ reserved: true }" as the request
-
         // If the request is successful, refresh the page
         document.location.reload();
       }
-
-      //fakeAnimals.forEach(cardify);
     </script>
   </body>
 </html>

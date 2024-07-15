@@ -12,19 +12,13 @@ export const getAnimalList = async (req, res) => {
 
 export const addAnimal = async (req, res, next) => {
   try {
-    // const animal = new Animal(req.body);
-    // await animal.save();
-    console.log(req.body);
     const animal = await Animal.create({
       name: req.body.name,
       desc: req.body.desc,
     });
-    console.log(animal);
-
     res.status(201).json({ status: "success", data: animal });
   } catch (err) {
     next(err);
-    // res.status(400).json({ status: "failed", msg: err.message });
   }
 };
 
@@ -38,7 +32,6 @@ export const updateAnimal = async (req, res, next) => {
     res.status(200).json({ status: "success", data: animal });
   } catch (err) {
     next(err);
-    // res.status(400).json({ status: "failed", msg: err.message });
   }
 };
 
